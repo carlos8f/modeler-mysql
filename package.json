@@ -1,0 +1,34 @@
+{
+  "name": "modeler-mysql",
+  "version": "0.0.0",
+  "description": "mysql-powered functional entity system",
+  "main": "index.js",
+  "dependencies": {
+    "modeler": "~0.1.2"
+  },
+  "devDependencies": {
+    "mocha": "*",
+    "mysql": "~2.0.0-alpha8",
+    "idgen": "~1.3.0"
+  },
+  "scripts": {
+    "test": "make test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/carlos8f/modeler-mysql.git"
+  },
+  "homepage": "https://github.com/carlos8f/modeler-mysql",
+  "keywords": [
+    "mysql",
+    "model",
+    "entity",
+    "orm",
+    "bacon"
+  ],
+  "author": "Carlos Rodriguez <carlos@s8f.org> (http://s8f.org/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/carlos8f/modeler-mysql/issues"
+  }
+}
