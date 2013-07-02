@@ -33,21 +33,25 @@ setUp = function (done) {
       if (err) return done(err);
       client.query("CREATE TABLE IF NOT EXISTS `apples` ("
         + "`id` VARCHAR(255) NOT NULL,"
-        + "`created` DATETIME,"
-        + "`updated` DATETIME,"
+        + "`__seq` BIGINT NOT NULL AUTO_INCREMENT,"
+        + "`created` BIGINT,"
+        + "`updated` BIGINT,"
         + "`rev` INT,"
         + "`size` VARCHAR(255),"
         + "`condition` TEXT,"
         + "`type` VARCHAR(255),"
-        + "`internal` VARCHAR(255),"
-        + "PRIMARY KEY (`id`)"
+        + "`__internal` VARCHAR(255),"
+        + "PRIMARY KEY (`__seq`),"
+        + "UNIQUE KEY (`id`)"
         + ") ENGINE=InnoDB", tryDone);
       client.query("CREATE TABLE IF NOT EXISTS `oranges` ("
         + "`id` VARCHAR(255) NOT NULL,"
-        + "`created` DATETIME,"
-        + "`updated` DATETIME,"
+        + "`__seq` BIGINT NOT NULL AUTO_INCREMENT,"
+        + "`created` BIGINT,"
+        + "`updated` BIGINT,"
         + "`rev` INT,"
-        + "PRIMARY KEY (`id`)"
+        + "PRIMARY KEY (`__seq`),"
+        + "UNIQUE KEY (`id`)"
         + ") ENGINE=InnoDB", tryDone);
       });
   });

@@ -4,7 +4,7 @@
   "description": "mysql-powered functional entity system",
   "main": "index.js",
   "dependencies": {
-    "modeler": "~0.1.2"
+    "modeler": "~0.2.0"
   },
   "devDependencies": {
     "mocha": "*",

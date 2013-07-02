@@ -8,24 +8,27 @@ module.exports = function (_opts) {
   var table = api.options.table || api.options.name;
   var serialPrefix = api.options.serialPrefix || '~s:';
 
-  api._list = function (options, cb) {
-    var offset = options.start || 0;
-    var limit = options.stop && options.stop - offset || '18446744073709551610'; 
-    client.query('SELECT id FROM ?? ORDER BY created DESC LIMIT ?, ?',
-      [table, offset, limit], function (err, rows) {
-        if (err) return cb(err);
-        console.log(rows);
-      });
+  api._tail = function (limit, cb) {
+    if (limit) limit = ' LIMIT ' + limit;
+    else limit = '';
+    client.query('SELECT id FROM ?? ORDER BY __seq DESC' + limit, table, function (err, rows) {
+      if (err) return cb(err);
+      cb(null, rows.map(function (row) {
+        return row.id;
+      }))
+    });
   };
   api._save = function (entity, cb) {
     var c = api.copy(entity);
     var errored = false;
     Object.keys(c).forEach(function (k) {
       if (errored) return;
+      if (k === 'created' || k === 'updated') {
+        c[k] = c[k].getTime();
+      }
       switch (typeof c[k]) {
         case 'boolean':
         case 'object':
-        if (c[k].getTime) return; // dates dealt with by node-mysql
         try {
           c[k] = serialPrefix + JSON.stringify(c[k]);
         }
@@ -36,7 +39,6 @@ module.exports = function (_opts) {
       }
     });
     if (errored) return;
-    //console.log('save', c);
     client.query('INSERT INTO ?? SET ? ON DUPLICATE KEY UPDATE ?', [table, c, c], cb);
   };
   api._load = function (id, cb) {
@@ -55,8 +57,13 @@ module.exports = function (_opts) {
             return cb(err);
           }
         }
+        else if (k === 'created' || k === 'updated') {
+          entity[k] = new Date(entity[k]);
+        }
+        else if (entity[k] === null) {
+          delete entity[k];
+        }
       });
-      //console.log('load', entity);
       cb(null, entity);
     });
   };
