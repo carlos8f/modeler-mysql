@@ -1,6 +1,6 @@
 {
   "name": "modeler-mysql",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "mysql-powered functional entity system",
   "main": "index.js",
   "dependencies": {
